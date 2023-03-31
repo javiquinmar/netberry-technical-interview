@@ -10,10 +10,11 @@ window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 import { createApp } from 'vue'
+import TaskManager from '@/components/TaskManager.vue'
 
 createApp({
     components: {
-        
+        TaskManager
     },
 }).mount('#app');
 
