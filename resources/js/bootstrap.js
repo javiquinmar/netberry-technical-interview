@@ -10,14 +10,29 @@ window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 import { createApp } from 'vue'
+
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 import TaskManager from '@/components/TaskManager.vue'
+import Loading from '@/components/Loading.vue'
 
-createApp({
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+
+const app = createApp({
     components: {
-        TaskManager
+        TaskManager,
+        Loading,
     },
-}).mount('#app');
+});
 
+app.use(VueSweetalert2);
+app.use(Toast);
+
+window.Swal = app.config.globalProperties.$swal;
+
+app.mount("#app");
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
