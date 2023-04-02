@@ -14,7 +14,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('category_task', function (Blueprint $table) {
-            $table->foreignIdFor(Category::class);
+            $table->foreignIdFor(Category::class)->constrained();
             $table->foreignIdFor(Task::class);
         });
     }

@@ -15,9 +15,21 @@ class CategorySeeder extends Seeder
         Category::factory()
                 ->count(3)
                 ->sequence(
-                    ['name' => 'PHP'],
-                    ['name' => 'Javascript'],
-                    ['name' => 'CSS'],
+                    [
+                        'name' => 'PHP',
+                        'bg_hex_color' => '#7a86b8',
+                        'text_hex_color' => '#ffffff'
+                    ],
+                    [
+                        'name' => 'Javascript',
+                        'bg_hex_color' => '#efd81d',
+                        'text_hex_color' => '#000000'
+                    ],
+                    [
+                        'name' => 'CSS',
+                        'bg_hex_color' => '#0068ba',
+                        'text_hex_color' => '#ffffff'
+                    ],
                 )
                 ->create();
     }

@@ -11,6 +11,8 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
+            $table->string('bg_hex_color', 7)->default('#dbeafe');
+            $table->string('text_hex_color', 7)->default('#1e40b6');
             $table->timestamps();
         });
     }
