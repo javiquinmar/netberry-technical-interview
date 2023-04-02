@@ -1,86 +1,72 @@
 <script setup>
-import { ChevronDownIcon } from "@heroicons/vue/20/solid";
+import useCategories from '@/composables/useCategories';
+import useTasks from '@/composables/useTasks';
+import { onMounted, computed } from 'vue';
+import { XMarkIcon } from '@heroicons/vue/24/solid'
 
-const people = [
-	{ name: "Lindsay Walton", title: "Front-end Developer", email: "lindsay.walton@example.com", role: "Member" },
-	{ name: "Lindsay Walton", title: "Front-end Developer", email: "lindsay.walton@example.com", role: "Member" },
-	{ name: "Lindsay Walton", title: "Front-end Developer", email: "lindsay.walton@example.com", role: "Member" },
-	{ name: "Lindsay Walton", title: "Front-end Developer", email: "lindsay.walton@example.com", role: "Member" },
-	{ name: "Lindsay Walton", title: "Front-end Developer", email: "lindsay.walton@example.com", role: "Member" },
-	{ name: "Lindsay Walton", title: "Front-end Developer", email: "lindsay.walton@example.com", role: "Member" },
-	{ name: "Lindsay Walton", title: "Front-end Developer", email: "lindsay.walton@example.com", role: "Member" },
-	{ name: "Lindsay Walton", title: "Front-end Developer", email: "lindsay.walton@example.com", role: "Member" },
-	{ name: "Lindsay Walton", title: "Front-end Developer", email: "lindsay.walton@example.com", role: "Member" },
-];
+const { categories, categoryErrors, getCategories } = useCategories();
+const { task, tasks, taskErrors, getTasks, storeTask, removeTask } = useTasks();
 
-const task = {
-	id: null,
-	name: "",
-	categories: [],
-};
+const validTask = computed(() => {
+  	return task.value.name.length >= 3 
+		&& Array.isArray(task.value.categories)
+		&& task.value.categories.length > 0;
+})
+
+onMounted(() => {
+	getCategories();
+	getTasks();
+});
+
 </script>
 
 <template>
+	
 	<div class="container py-4 md:py-6 lg:py-8 xl:py-12">
 		<h1>Gestor de tareas</h1>
-
 		<div class="grid grid-cols-1 md:grid-cols-8 mt-8 gap-4">
-			<input
-				type="text"
-				v-model="task.name"
-				class="md:col-span-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-				placeholder="Escribe aquí el nombre de la nueva tarea"
-			/>
-			<div class="md:col-span-3 flex justify-evenly items-center">
-				<div class="relative flex items-start">
-					<div class="flex h-6 items-center">
-						<input
-							id="candidates"
-							aria-describedby="candidates-description"
-							name="candidates"
-							type="checkbox"
-							class="cursor-pointer h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-						/>
-					</div>
-					<div class="ml-1 text-sm leading-6">
-						<label for="candidates" class="font-medium text-gray-900">PHP</label>
-					</div>
-				</div>
-                <div class="relative flex items-start">
-					<div class="flex h-6 items-center">
-						<input
-							id="candidates"
-							aria-describedby="candidates-description"
-							name="candidates"
-							type="checkbox"
-							class="cursor-pointer h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-						/>
-					</div>
-					<div class="ml-1 text-sm leading-6">
-						<label for="candidates" class="font-medium text-gray-900">Javascript</label>
-					</div>
-				</div>
-				<div class="relative flex items-start">
-					<div class="flex h-6 items-center">
-						<input
-							id="candidates"
-							aria-describedby="candidates-description"
-							name="candidates"
-							type="checkbox"
-							class="cursor-pointer h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-						/>
-					</div>
-					<div class="ml-1 text-sm leading-6">
-						<label for="candidates" class="font-medium text-gray-900">CSS</label>
-					</div>
-				</div>
+			<div class="md:col-span-4 w-full flex flex-col">
+				<input
+					type="text"
+					v-model="task.name"
+					class="form-input"
+					:class="taskErrors.name ? 'input-error' : ''"
+					placeholder="Escribe aquí el nombre de la nueva tarea"
+				/>
+				<span v-if="taskErrors.name" class="text-red-500 mt-1">{{ taskErrors.name.join(', ') }}</span>
 			</div>
-			<button
-				type="button"
-				class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-			>
-				Añadir
-			</button>
+			<div class="md:col-span-3 flex flex-col justify-center">
+				<div class="flex flex-wrap justify-evenly items-center gap-4">
+					<template v-for="category in categories" :key="'category-' + category.id">
+						<div class="relative flex items-start">
+							<div class="flex h-6 items-center">
+								<input
+									v-model="task.categories"
+									:value="category.id"
+									name="categories"
+									type="checkbox"
+									class="form-checkbox"
+								/>
+							</div>
+							<div class="ml-1 text-sm leading-6">
+								<label for="categories" class="font-medium text-gray-900">{{ category.name }}</label>
+							</div>
+						</div>
+					</template> 	
+				</div>
+				<span v-if="taskErrors.categories" class="text-red-500 text-center mt-1">{{ taskErrors.categories.join(', ') }}</span>
+			</div>
+			<div class="flex items-center justify-center">
+				<button
+					@click="storeTask"
+					:disabled="!validTask"
+					type="button"
+					class="form-button"
+					tooltip="Debe tener al menos 3 caracteres y alguna categoría seleccionada"
+				>
+					Añadir
+				</button>
+			</div>
 		</div>
 
 		<div class="mt-8 flow-root">
@@ -92,17 +78,11 @@ const task = {
 								<th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
 									<a href="#" class="group inline-flex">
 										Tarea
-										<span class="invisible ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible">
-											<ChevronDownIcon class="h-5 w-5" aria-hidden="true" />
-										</span>
 									</a>
 								</th>
 								<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
 									<a href="#" class="group inline-flex">
 										Categorías
-										<span class="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
-											<ChevronDownIcon class="h-5 w-5" aria-hidden="true" />
-										</span>
 									</a>
 								</th>
 
@@ -112,13 +92,18 @@ const task = {
 							</tr>
 						</thead>
 						<tbody class="divide-y divide-gray-200 bg-white">
-							<tr v-for="person in people" :key="person.email">
-								<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{ person.name }}</td>
-								<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ person.title }}</td>
-								<td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm sm:pr-0">
-									<a href="#" class="text-indigo-600 hover:text-indigo-900"
-										>Edit<span class="sr-only">, {{ person.name }}</span></a
+							<tr v-for="task in tasks" :key="'task-' + task.id">
+								<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{ task.name }}</td>
+								<td class="flex flex-wrap py-4 gap-4 items-center">
+									<span v-for="category in task.categories" :key="`task-${task.id}-category-${category.id}`"
+										class="inline-flex items-center rounded-full px-3 py-0.5 text-sm font-medium" 
+										:style="{ 'background-color': category.bg_hex_color, 'color': category.text_hex_color }"
 									>
+										{{ category.name }}
+									</span>
+								</td>
+								<td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm sm:pr-0">
+									<XMarkIcon @click="removeTask(task.id)" class="cursor-pointer h-6 w-6 text-red-500" />
 								</td>
 							</tr>
 						</tbody>

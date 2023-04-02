@@ -17,6 +17,7 @@
 
         <main id="app">
             @yield('content')
+            <Loading></Loading>
         </main>
 
         <x-footer />
