@@ -1,0 +1,21 @@
+.input-error {
+	border: 1px solid red !important;
+}
+
+button[disabled][tooltip] {
+	position: relative;
+	border-bottom: dotted 1px #000;
+}
+
+button[disabled][tooltip]:hover:before {
+	content: attr(tooltip);
+	background-color: #000;
+	color: #fff;
+	top: 3rem;
+	left: -3rem;
+	position: absolute;
+	white-space: wrap;
+	padding: 5px 10px;
+	border-radius: 5px;
+	z-index: 999;
+}
