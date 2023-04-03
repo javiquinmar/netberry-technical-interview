@@ -48,7 +48,7 @@ Se ha realizado con:
 - Instalar paquetes Javascript
 
 ```bash
-  npm run install
+  npm install
 ```
 
 - Compilar assets
