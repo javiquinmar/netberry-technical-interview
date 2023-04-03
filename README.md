@@ -1,4 +1,4 @@
-<p align="center"><a href="https://www.netberry.es/" target="_blank"><img src="https://www.netberry.es/wp-content/uploads/2021/03/logo_netberry-01.png" width="400" alt="Netberry Logo"></a></p>
+<p align="center"><a href="https://www.netberry.es/" target="_blank"><img src="https://www.bilib.es/fileadmin/user_upload/inicio/imagenes/logotipo-netberry.png" width="400" alt="Netberry Logo"></a></p>
 
 
 # Netberry Technical Interview
