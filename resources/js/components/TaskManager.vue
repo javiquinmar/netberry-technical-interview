@@ -65,28 +65,28 @@ onMounted(() => {
 			<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 				<div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
 					<table class="min-w-full divide-y divide-gray-300">
-						<thead>
+						<thead class="border-slate-200 bg-slate-100">
 							<tr>
-								<th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+								<th scope="col" class="py-3.5 pl-4 pr-3 text-left text-base font-semibold text-gray-900">
 									<a href="#" class="group inline-flex">
-										Tarea
+										TAREA
 									</a>
 								</th>
-								<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+								<th scope="col" class="px-3 py-3.5 text-left text-base font-semibold text-gray-900">
 									<a href="#" class="group inline-flex">
-										Categorías
+										CATEGORÍAS
 									</a>
 								</th>
 
 								<th scope="col" class="relative py-3.5 pl-3 pr-0">
-									<span class="sr-only">Edit</span>
+									<span class="sr-only">Eliminar</span>
 								</th>
 							</tr>
 						</thead>
 						<tbody class="divide-y divide-gray-200 bg-white">
 							<tr v-for="task in tasks" :key="'task-' + task.id">
-								<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{ task.name }}</td>
-								<td class="flex flex-wrap py-4 gap-4 items-center">
+								<td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">{{ task.name }}</td>
+								<td class="flex flex-wrap py-4 pl-4 gap-4 items-center">
 									<span v-for="category in task.categories" :key="`task-${task.id}-category-${category.id}`"
 										class="inline-flex items-center rounded-full px-3 py-0.5 text-sm font-medium" 
 										:style="{ 'background-color': category.bg_hex_color, 'color': category.text_hex_color }"
