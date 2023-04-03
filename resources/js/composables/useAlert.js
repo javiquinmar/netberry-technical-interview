@@ -7,7 +7,6 @@ export default function useAlert() {
             title: msg,
             icon: 'question',
             showDenyButton: true,
-            showCancelButton: true,
             confirmButtonText: 'Sí',
         }).then((result) => {
             if (result.isConfirmed) {

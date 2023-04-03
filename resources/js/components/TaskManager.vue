@@ -1,17 +1,11 @@
 <script setup>
 import useCategories from '@/composables/useCategories';
 import useTasks from '@/composables/useTasks';
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import { XMarkIcon } from '@heroicons/vue/24/solid'
 
 const { categories, categoryErrors, getCategories } = useCategories();
-const { task, tasks, taskErrors, getTasks, storeTask, removeTask } = useTasks();
-
-const validTask = computed(() => {
-  	return task.value.name.length >= 3 
-		&& Array.isArray(task.value.categories)
-		&& task.value.categories.length > 0;
-})
+const { task, tasks, taskErrors, getTasks, storeTask, removeTask } = useTasks(); 
 
 onMounted(() => {
 	getCategories();
@@ -24,7 +18,7 @@ onMounted(() => {
 	
 	<div class="container py-4 md:py-6 lg:py-8 xl:py-12">
 		<h1>Gestor de tareas</h1>
-		<div class="grid grid-cols-1 md:grid-cols-8 mt-8 gap-4">
+		<div class="grid grid-cols-1 md:grid-cols-8 mt-8 gap-4 relative">
 			<div class="md:col-span-4 w-full flex flex-col">
 				<input
 					type="text"
@@ -56,13 +50,11 @@ onMounted(() => {
 				</div>
 				<span v-if="taskErrors.categories" class="text-red-500 text-center mt-1">{{ taskErrors.categories.join(', ') }}</span>
 			</div>
-			<div class="flex items-center justify-center">
+			<div class="flex justify-center items-center">
 				<button
 					@click="storeTask"
-					:disabled="!validTask"
 					type="button"
 					class="form-button"
-					tooltip="Debe tener al menos 3 caracteres y alguna categoría seleccionada"
 				>
 					Añadir
 				</button>
@@ -103,7 +95,7 @@ onMounted(() => {
 									</span>
 								</td>
 								<td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm sm:pr-0">
-									<XMarkIcon @click="removeTask(task.id)" class="cursor-pointer h-6 w-6 text-red-500" />
+									<XMarkIcon @click="removeTask(task.id)" class="cursor-pointer h-6 w-6 text-red-500 hover:scale-110 transition-transform" />
 								</td>
 							</tr>
 						</tbody>

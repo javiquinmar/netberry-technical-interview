@@ -13,7 +13,7 @@ export default function useTasks() {
     const task  = ref({...emptyTask});
     const tasks = ref([]);
 
-    const taskErrors = ref('');
+    const taskErrors = ref({});
 
     const { dispatchLoadingEmit } = useLoadingEmit();
     const { dialog } = useAlert();
@@ -32,7 +32,27 @@ export default function useTasks() {
         }
     }
 
+    const validateTask = () => {
+        taskErrors.value = {};
+        let isValidTask = true;
+        if (task.value.name.length < 3) {
+            isValidTask = false;
+            taskErrors.value.name = ['Debe tener al menos 3 caracteres'];
+        } 
+
+        if (Array.isArray(task.value.categories) && task.value.categories.length <= 0) {
+            isValidTask = false;
+            taskErrors.value.categories = ['Debe seleccionar al menos una categoría'];
+        }
+
+        return isValidTask;
+    };
+
     const storeTask = async () => {
+        if (!validateTask()) {
+            return;
+        }
+
         dispatchLoadingEmit(true);
 
         taskErrors.value = '';
@@ -42,7 +62,6 @@ export default function useTasks() {
             await getTasks();
             toast.success(response.data.message);
         } catch (e) {
-            console.log(e);
             if (e.response.status === 422) {
                 for (const key in e.response.data.errors) {
                     taskErrors.value = e.response.data.errors;
@@ -69,6 +88,7 @@ export default function useTasks() {
 
         try {
             const response = await axios.delete(`/api/tasks/${taskId}`);
+            toast.success(response.data.message);
             getTasks();
         } catch (e) {
             debugger;

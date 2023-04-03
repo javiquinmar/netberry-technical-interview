@@ -1,8 +1,8 @@
 <header>
     <nav class="bg-branch-500 shadow-lg">
-        <div class="max-w-6xl mx-auto px-4">
+        <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between">
-                <div class="flex space-x-12">
+                <div class="flex space-x-12 xl:space-x-16">
 					<!-- Website Logo -->
                     <div>
                         <a href="#" class="flex items-center py-4 px-2">
@@ -52,7 +52,7 @@
 
             window.addEventListener('click', function(e){
                 if (!btn.contains(e.target) && (!menu.contains(e.target))){
-					menu.classList.toggle("hidden");
+					menu.classList.add("hidden");
               	} 
             })
         </script>
