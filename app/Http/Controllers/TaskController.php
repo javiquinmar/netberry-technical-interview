@@ -19,7 +19,7 @@ class TaskController extends ApiController
         }
     }
 
-    public function store(TaskSaveRequest $taskSaveRequest)
+    public function store(TaskSaveRequest $taskSaveRequest): JsonResponse
     {
         try {
             $task = Task::create($taskSaveRequest->validated());
@@ -32,7 +32,7 @@ class TaskController extends ApiController
         }
     }
 
-    public function destroy(Task $task)
+    public function destroy(Task $task): JsonResponse
     {
         try {
             $task->delete();
