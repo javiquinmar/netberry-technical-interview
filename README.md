@@ -18,6 +18,8 @@ Se ha realizado con:
   git clone https://github.com/javiquinmar/netberry-technical-interview.git
 ```
 
+- Accede a la carpeta del proyecto.
+
 - Instalar paquetes PHP
 
 ```bash
@@ -34,6 +36,8 @@ Se ha realizado con:
 ```bash
   php artisan key:generate
 ```
+
+- Crear la base de datos y establécela en el archivo .env junto a sus credenciales.
 
 - Correr migraciones con seeds (datos fake)
 
