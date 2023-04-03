@@ -54,7 +54,7 @@ Se ha realizado con:
 - Compilar assets
 
 ```bash
-  npm run dev
+  npm run build
 ```
 
 
