@@ -28,7 +28,9 @@ const app = createApp({
 });
 
 app.use(VueSweetalert2);
-app.use(Toast);
+app.use(Toast, {
+    hideProgressBar: true
+});
 
 window.Swal = app.config.globalProperties.$swal;
 
